@@ -1,0 +1,32 @@
+﻿<script>
+    function searchPerson(sender, e) {
+        let userName = $("#tb-user-name").val();
+        $("#people-list").load('@Url.ActionLink("SearchPerson", "Search")?userName=' + userName);
+    }
+    
+    function searchAnime(sender, e) {
+        let animeTitle = $("#tb-anime-title").val();
+        $("#anime-list").load('@Url.ActionLink("SearchAnime", "Search")?animeTitle=' + animeTitle);
+        $('.selectpicker').selectpicker('refresh');
+    }
+    
+    function changeAnimeLabels(sender, animeId) {
+        let selected = sender.val();
+        alert(selected);
+    }
+</script>
+
+<div>
+    <div>
+        <h3>Search people</h3>
+        <input type="text" id="tb-user-name"/>
+        <button onclick="searchPerson()" type="button" class="btn btn-light">Search</button>
+        <div id="people-list"></div>
+    </div>
+    <div>
+        <h3>Search anime</h3>
+        <input type="text" id="tb-anime-title"/>
+        <button onclick="searchAnime()" type="button" class="btn btn-light">Search</button>
+        <div id="anime-list"></div>
+    </div>
+</div>

@@ -1,0 +1,81 @@
+﻿@model List<SearchResult>
+
+<script>
+    function likeAnime(animeId, userName) {        
+        $.ajax({
+            url: '@Url.ActionLink("LikeAnime", "Home")',
+            type: "POST",
+            contentType: 'application/x-www-form-urlencoded',
+            headers: { 'Access-Control-Allow-Origin': '*' },
+            dataType: 'json',
+            data: { animeId: animeId }
+        })
+        .done(function(data) {
+            if (data.success === true) {
+                let btn = $('#btn-like-' + animeId);
+                if (data.added === true) {
+                    btn.text('Remove from liked');
+                }
+                else {
+                    btn.text('Add to liked');
+                }
+            }
+            else {
+                alert('Oops. Error');
+            }
+        });
+    }
+    
+    function dislikeAnime(animeId, userName) {        
+        $.ajax({
+            url: '@Url.ActionLink("DislikeAnime", "Home")',
+            type: "POST",
+            contentType: 'application/x-www-form-urlencoded',
+            headers: { 'Access-Control-Allow-Origin': '*' },
+            dataType: 'json',
+            data: { animeId: animeId }
+        })
+        .done(function(data) {
+            if (data.success === true) {
+                let btn = $('#btn-dislike-' + animeId);
+                if (data.added === true) {
+                    btn.text('Remove from disliked');
+                }
+                else {
+                    btn.text('Add to disliked');
+                }
+            }
+            else {
+                alert('Oops. Error');
+            }
+        });
+    }
+</script>
+
+<select class="selectpicker" multiple>
+        <option>Test 1</option>
+        <option>Test 2</option>
+        <option>Test 3</option>
+        <option>Test 4</option>
+    </select>
+
+@if (Model != null)
+{
+    if (Model.Count == 0)
+    {
+        <p>Nothing found</p>
+    }
+    else
+    {
+        <ol>
+            @foreach (var item in Model)
+            {
+                <li>
+                    @item.Name
+                    <button id="btn-like-@item.Id" type="button" class="btn btn-link" onclick="likeAnime('@item.Id', '@item.Name')">@(item.Labels.Contains("Liked") ? "Remove from liked" : "Add to liked")</button>
+                    <button id="btn-dislike-@item.Id" type="button" class="btn btn-link" onclick="dislikeAnime('@item.Id', '@item.Name')">@(item.Labels.Contains("Disliked") ? "Remove from disliked" : "Add to disliked")</button>
+                </li>
+            }
+        </ol>
+    }
+}

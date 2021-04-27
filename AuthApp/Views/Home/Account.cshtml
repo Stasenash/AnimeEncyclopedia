@@ -1,0 +1,21 @@
+@{
+    ViewBag.Title = "Account";
+}
+
+<h2>Your info</h2>
+<div>
+    @{
+        var markedAnime = (IEnumerable<IGrouping<string, LabeledAnime>>)ViewData["LikedAnime"];
+    }
+    Your list:
+    @foreach (var labelGroup in markedAnime)
+    {
+        <div>You marked this anime as "@labelGroup.Key"</div>
+        <ol>
+            @foreach (var anime in labelGroup)
+            {
+                <li>@anime.AnimeName</li>
+            }
+        </ol>
+    }
+</div>
